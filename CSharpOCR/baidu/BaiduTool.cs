@@ -8,6 +8,7 @@ namespace CSharpOCR
 {
    public class BaiduTool
     {
+        
 
         #region 通用文字识别 每天50000次
         /// <summary>
@@ -33,7 +34,7 @@ namespace CSharpOCR
                 var result = BaiduConfig.client.GeneralBasic(image, options);
                 res = result.ToString();
            
-            return res;
+            return Common.JsonToResult(res);
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace CSharpOCR
                 var result = BaiduConfig.client.GeneralBasicUrl(url, options);
                 res = result.ToString();
            
-            return res;
+            return Common.JsonToResult(res);
 
         }
         #endregion
@@ -84,7 +85,7 @@ namespace CSharpOCR
                var result = BaiduConfig.client.AccurateBasic(image, options);
                 res = result.ToString();
            
-             return res;
+             return Common.JsonToResult(res);
         }
 
         #region 识别特殊字体,背景复杂的网络图片,每天500次
@@ -92,16 +93,16 @@ namespace CSharpOCR
         /// 识别网络图片-文件
         /// </summary>
         /// <returns></returns>
-        public string WebImageDemo(string imgPath)
+        public static string WebImageDemo(string imgPath)
         {
-            var image = File.ReadAllBytes("图片文件路径");
+            var image = File.ReadAllBytes(imgPath);
             // 调用网络图片文字识别, 图片参数为本地图片，可能会抛出网络等异常，请使用try/catch捕获        
 
             var options = new Dictionary<string, object>{
         {"detect_direction", "true"},
         {"detect_language", "true"}};
             // 带参数调用网络图片文字识别, 图片参数为本地图片
-            return BaiduConfig.client.WebImage(image, options).ToString();
+            return Common.JsonToResult(BaiduConfig.client.WebImage(image, options).ToString());
 
         }
 
@@ -118,7 +119,7 @@ namespace CSharpOCR
         {"detect_direction", "true"},
         {"detect_language", "true"}};
             // 带参数调用网络图片文字识别, 图片参数为远程url图片
-            return BaiduConfig.client.WebImageUrl(url, options).ToString();
+            return Common.JsonToResult(BaiduConfig.client.WebImageUrl(url, options).ToString());
         }
         #endregion
 
@@ -137,7 +138,7 @@ namespace CSharpOCR
         {"detect_direction", "true"}
     };
             // 带参数调用网络图片文字识别, 图片参数为远程url图片
-            return BaiduConfig.client.Numbers(url, options).ToString();
+            return Common.JsonToResult(BaiduConfig.client.Numbers(url, options).ToString());
         }
 
 
@@ -154,7 +155,7 @@ namespace CSharpOCR
         {"recognize_granularity", "big"}
     };
             // 带参数调用网络图片文字识别, 图片参数为远程url图片
-            return BaiduConfig.client.Handwriting(url, options).ToString();
+            return  Common.JsonToResult( BaiduConfig.client.Handwriting(url, options).ToString());
         }
 
 
@@ -197,7 +198,7 @@ namespace CSharpOCR
         {"multi_detect", "true"}
     };
             // 带参数调用网络图片文字识别, 图片参数为远程url图片
-            return BaiduConfig.client.LicensePlate(url, options).ToString();
+            return Common.JsonToResultCarNumber( BaiduConfig.client.LicensePlate(url, options).ToString());
         }
 
         public string Demo(string imgPath)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CSharpOCR;
 
@@ -15,7 +16,7 @@ namespace CSharpOCR
         public static string JsonToResult(string result)
         {
             StringBuilder str = new StringBuilder();
-            var re = (ResultModel)DataConvert.JsonToObj(result, typeof(ResultModel));
+            var re = (BDResultModel)DataConvert.JsonToObj(result, typeof(BDResultModel));
             if (re != null && re.words_result.Count > 0)
             {
                 foreach (var item in re.words_result)
@@ -24,6 +25,25 @@ namespace CSharpOCR
                 }
             }
             return str.ToString();
+        }
+
+
+        /// <summary>
+        /// 提取json中的车牌号
+        /// </summary>
+        public static string JsonToResultCarNumber(string result)
+        {
+            //StringBuilder str = new StringBuilder();
+            //var re = (CarModel)DataConvert.JsonToObj(result, typeof(CarModel));
+            //if (re != null && re.data!= null && re.data.words_result!=null)
+            //{
+            //    str.Append( re.data.words_result.number);
+            //}
+            //return str.ToString();
+
+            result = result.Replace("\"", "'");
+            result = Regex.Match(result, "(?<='number': ').*?(?=',)").Value;
+            return result;//=(result+"").Length>0?result:"未识别出结果"
         }
     }
 }

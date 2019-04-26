@@ -30,7 +30,7 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.imgFile = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gboxResult = new System.Windows.Forms.GroupBox();
             this.txtResult = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabCommon = new System.Windows.Forms.TabControl();
@@ -53,9 +53,10 @@
             this.btnIntroduce = new CSharpOCR.MyButton();
             this.myButton23 = new CSharpOCR.MyButton();
             this.myButton24 = new CSharpOCR.MyButton();
+            this.btnSpecial2 = new CSharpOCR.MyButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgFile)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.gboxResult.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabCommon.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -87,17 +88,17 @@
             this.imgFile.TabIndex = 0;
             this.imgFile.TabStop = false;
             // 
-            // groupBox2
+            // gboxResult
             // 
-            this.groupBox2.Controls.Add(this.txtResult);
-            this.groupBox2.Location = new System.Drawing.Point(17, 451);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(535, 399);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "识别结果";
+            this.gboxResult.Controls.Add(this.txtResult);
+            this.gboxResult.Location = new System.Drawing.Point(17, 451);
+            this.gboxResult.Margin = new System.Windows.Forms.Padding(4);
+            this.gboxResult.Name = "gboxResult";
+            this.gboxResult.Padding = new System.Windows.Forms.Padding(4);
+            this.gboxResult.Size = new System.Drawing.Size(535, 399);
+            this.gboxResult.TabIndex = 1;
+            this.gboxResult.TabStop = false;
+            this.gboxResult.Text = "识别结果";
             // 
             // txtResult
             // 
@@ -111,6 +112,7 @@
             this.txtResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtResult.Size = new System.Drawing.Size(527, 372);
             this.txtResult.TabIndex = 0;
+            this.txtResult.TextChanged += new System.EventHandler(this.txtResult_TextChanged);
             // 
             // groupBox3
             // 
@@ -138,6 +140,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnSpecial2);
             this.tabPage1.Controls.Add(this.btnEnglish);
             this.tabPage1.Controls.Add(this.btnChinese);
             this.tabPage1.Controls.Add(this.btnTableDown);
@@ -155,7 +158,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(519, 342);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "文件版";
+            this.tabPage1.Text = "常用";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -168,7 +171,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(519, 342);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "链接版";
+            this.tabPage2.Text = "更多";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox4
@@ -212,6 +215,7 @@
             this.txtFilePath.Name = "txtFilePath";
             this.txtFilePath.Size = new System.Drawing.Size(271, 26);
             this.txtFilePath.TabIndex = 2;
+            this.txtFilePath.TextChanged += new System.EventHandler(this.txtFilePath_TextChanged);
             // 
             // btnEnglish
             // 
@@ -224,6 +228,7 @@
             this.btnEnglish.TabIndex = 16;
             this.btnEnglish.Text = "本地识别英文";
             this.btnEnglish.UseVisualStyleBackColor = false;
+            this.btnEnglish.Click += new System.EventHandler(this.btnEnglish_Click);
             // 
             // btnChinese
             // 
@@ -236,6 +241,7 @@
             this.btnChinese.TabIndex = 15;
             this.btnChinese.Text = "本地识别中文";
             this.btnChinese.UseVisualStyleBackColor = false;
+            this.btnChinese.Click += new System.EventHandler(this.btnChinese_Click);
             // 
             // btnTableDown
             // 
@@ -246,6 +252,7 @@
             this.btnTableDown.Name = "btnTableDown";
             this.btnTableDown.Size = new System.Drawing.Size(139, 59);
             this.btnTableDown.TabIndex = 14;
+            this.btnTableDown.Tag = "TableRecognitionGetResultDemo";
             this.btnTableDown.Text = "表格识别";
             this.btnTableDown.UseVisualStyleBackColor = false;
             // 
@@ -258,6 +265,7 @@
             this.btnTableUp.Name = "btnTableUp";
             this.btnTableUp.Size = new System.Drawing.Size(139, 59);
             this.btnTableUp.TabIndex = 13;
+            this.btnTableUp.Tag = "TableRecognitionRequestDemo";
             this.btnTableUp.Text = "表格上传";
             this.btnTableUp.UseVisualStyleBackColor = false;
             // 
@@ -270,6 +278,7 @@
             this.btnCar.Name = "btnCar";
             this.btnCar.Size = new System.Drawing.Size(139, 59);
             this.btnCar.TabIndex = 12;
+            this.btnCar.Tag = "LicensePlateDemo";
             this.btnCar.Text = "车牌识别";
             this.btnCar.UseVisualStyleBackColor = false;
             // 
@@ -282,6 +291,7 @@
             this.btnWrite.Name = "btnWrite";
             this.btnWrite.Size = new System.Drawing.Size(139, 59);
             this.btnWrite.TabIndex = 11;
+            this.btnWrite.Tag = "HandwritingDemo";
             this.btnWrite.Text = "手写识别";
             this.btnWrite.UseVisualStyleBackColor = false;
             // 
@@ -289,11 +299,12 @@
             // 
             this.btnNum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(44)))), ((int)(((byte)(100)))));
             this.btnNum.ForeColor = System.Drawing.Color.White;
-            this.btnNum.Location = new System.Drawing.Point(193, 95);
+            this.btnNum.Location = new System.Drawing.Point(359, 271);
             this.btnNum.Margin = new System.Windows.Forms.Padding(4);
             this.btnNum.Name = "btnNum";
             this.btnNum.Size = new System.Drawing.Size(139, 59);
             this.btnNum.TabIndex = 10;
+            this.btnNum.Tag = "NumbersDemo";
             this.btnNum.Text = "数字识别";
             this.btnNum.UseVisualStyleBackColor = false;
             // 
@@ -306,7 +317,8 @@
             this.btnSpecial.Name = "btnSpecial";
             this.btnSpecial.Size = new System.Drawing.Size(139, 59);
             this.btnSpecial.TabIndex = 9;
-            this.btnSpecial.Text = "特殊字体";
+            this.btnSpecial.Tag = "WebImageUrlDemo";
+            this.btnSpecial.Text = "特殊字体(链接)";
             this.btnSpecial.UseVisualStyleBackColor = false;
             // 
             // btnBest
@@ -318,9 +330,9 @@
             this.btnBest.Name = "btnBest";
             this.btnBest.Size = new System.Drawing.Size(139, 59);
             this.btnBest.TabIndex = 8;
+            this.btnBest.Tag = "AccurateBasicDemo";
             this.btnBest.Text = "百度高精度";
             this.btnBest.UseVisualStyleBackColor = false;
-            this.btnBest.Click += new System.EventHandler(this.btnBest_Click);
             // 
             // btnCommon
             // 
@@ -331,9 +343,9 @@
             this.btnCommon.Name = "btnCommon";
             this.btnCommon.Size = new System.Drawing.Size(139, 59);
             this.btnCommon.TabIndex = 7;
+            this.btnCommon.Tag = "GeneralBasicDemo";
             this.btnCommon.Text = "百度通用(推荐)";
             this.btnCommon.UseVisualStyleBackColor = false;
-            this.btnCommon.Click += new System.EventHandler(this.btnCommon_Click);
             // 
             // btnIntroduce
             // 
@@ -344,7 +356,8 @@
             this.btnIntroduce.Name = "btnIntroduce";
             this.btnIntroduce.Size = new System.Drawing.Size(139, 59);
             this.btnIntroduce.TabIndex = 6;
-            this.btnIntroduce.Text = "使用说明";
+            this.btnIntroduce.Tag = "GeneralBasicUrlDemo";
+            this.btnIntroduce.Text = "百度通用(链接)";
             this.btnIntroduce.UseVisualStyleBackColor = false;
             // 
             // myButton23
@@ -371,6 +384,19 @@
             this.myButton24.Text = "百度通用";
             this.myButton24.UseVisualStyleBackColor = false;
             // 
+            // btnSpecial2
+            // 
+            this.btnSpecial2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(44)))), ((int)(((byte)(100)))));
+            this.btnSpecial2.ForeColor = System.Drawing.Color.White;
+            this.btnSpecial2.Location = new System.Drawing.Point(193, 95);
+            this.btnSpecial2.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSpecial2.Name = "btnSpecial2";
+            this.btnSpecial2.Size = new System.Drawing.Size(139, 59);
+            this.btnSpecial2.TabIndex = 20;
+            this.btnSpecial2.Tag = "WebImageDemo";
+            this.btnSpecial2.Text = "特殊字体";
+            this.btnSpecial2.UseVisualStyleBackColor = false;
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -380,7 +406,7 @@
             this.ClientSize = new System.Drawing.Size(1135, 865);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.gboxResult);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("宋体", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -393,8 +419,8 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragEnter);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imgFile)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gboxResult.ResumeLayout(false);
+            this.gboxResult.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.tabCommon.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -408,7 +434,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gboxResult;
         private System.Windows.Forms.TextBox txtResult;
         private System.Windows.Forms.PictureBox imgFile;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -432,6 +458,7 @@
         private MyButton btnEnglish;
         private MyButton btnChinese;
         private System.Windows.Forms.Label label1;
+        private MyButton btnSpecial2;
     }
 }
 
