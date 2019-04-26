@@ -16,8 +16,8 @@ namespace CSharpOCR
         public static string JsonToResult(string result)
         {
             StringBuilder str = new StringBuilder();
-            var re = (BDResultModel)DataConvert.JsonToObj(result, typeof(BDResultModel));
-            if (re != null && re.words_result.Count > 0)
+            var re = (BaiDuResult)DataConvert.JsonToObj(result, typeof(BaiDuResult));
+            if (re != null && re.words_result!=null && re.words_result.Count > 0)
             {
                 foreach (var item in re.words_result)
                 {

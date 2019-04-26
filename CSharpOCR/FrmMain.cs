@@ -17,11 +17,10 @@ namespace CSharpOCR
     {
         public FrmMain()
         {
-            //文件路径检查
+            
            
             InitializeComponent();
-
-            #region MyRegion
+            //添加点击事件,判断是否选择了文件
             foreach (var item in tabPage1.Controls)
             {
                 ((MyButton)item).Click += (a, b) =>
@@ -38,50 +37,6 @@ namespace CSharpOCR
                     }
                 };
             }
-            //foreach (var btn in tabPage1.Controls)
-            //{
-            //    ((MyButton)btn).Click += (a, b) =>
-            //    {
-            //        if (string.IsNullOrEmpty(txtFilePath.Text.Trim()))
-            //        {
-            //            MessageBox.Show("请先选择文件或者填入图片链接");
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            imgPath = txtFilePath.Text.Trim();
-            //        }
-            //    };
-            //    //设置开始识别时间
-            //    ((MyButton)btn).Click += (a, b) =>
-            //    {
-            //        beginTime = DateTime.Now;
-            //        gboxResult.Text = "识别中";
-            //    };
-            //}
-            //foreach (var btn in tabPage2.Controls)
-            //{
-            //    ((MyButton)btn).Click += (a, b) =>
-            //    {
-            //        if (string.IsNullOrEmpty(txtFilePath.Text.Trim()))
-            //        {
-            //            MessageBox.Show("请先选择文件或者填入图片链接");
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            imgPath = txtFilePath.Text.Trim();
-            //        }
-            //    };
-            //    //设置开始识别时间
-            //    ((MyButton)btn).Click += (a, b) =>
-            //    {
-            //        beginTime = DateTime.Now;
-            //        gboxResult.Text = "识别中...";
-            //    };
-            //}
-            #endregion
-
         }
 
         /// <summary>
@@ -92,17 +47,19 @@ namespace CSharpOCR
         /// <summary>
         /// 表格识别获得的Id
         /// </summary>
-        private string requestId = "";
+        private string requestTbId = "";
 
+        /// <summary>
+        /// 开始识别的时间
+        /// </summary>
         private DateTime beginTime;
-        private DateTime endTime;
 
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
             //连接超时时间设置为十秒
             BaiduConfig.client.Timeout = 1000 * 10;
-
+            //填充默认路径
             txtFilePath.Text = imgPath;
 
         }
@@ -125,16 +82,15 @@ namespace CSharpOCR
                 gboxResult.Text = "识别中...";
                 Thread.Sleep(100);
             }
-
          }
 
 
-            /// <summary>
-            /// 选择文件
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void btnSelectFile_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 选择文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSelectFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "*.jpg|*.jpg|*.png|*.png|*.bmp|*.bmp";
@@ -147,14 +103,14 @@ namespace CSharpOCR
         }
 
 
-
+        #region 实现拖入文件
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
         {
             string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
             FileInfo file = new FileInfo(path);
             if (file.Extension.Equals(".jpg") || file.Extension.Equals(".png") || file.Extension.Equals(".bmp"))
             {
-                imgPath= txtFilePath.Text = path.Trim();
+                imgPath = txtFilePath.Text = path.Trim();
                 imgFile.Image = Image.FromFile(path);
             }
             else
@@ -174,6 +130,9 @@ namespace CSharpOCR
                 e.Effect = DragDropEffects.None;
             }
         }
+        #endregion
+
+
 
 
         #region 点击事件(弃用)
@@ -227,7 +186,7 @@ namespace CSharpOCR
         private void btnTableDown_Click(object sender, EventArgs e)
         {
             RunBefore();
-            txtResult.Text = Common.JsonToResult(BaiduTool.TableRecognitionGetResultDemo(requestId));
+            txtResult.Text = Common.JsonToResult(BaiduTool.TableRecognitionGetResultDemo(requestTbId));
         }
         #endregion
 
@@ -252,6 +211,7 @@ namespace CSharpOCR
           
         }
 
+        #region 使用TesseractEngine的识别
         private void btnChinese_Click(object sender, EventArgs e)
         {
             RunBefore();
@@ -260,8 +220,8 @@ namespace CSharpOCR
                 Control.CheckForIllegalCrossThreadCalls = false;
                 txtResult.Text = TesseractTool.ConvertStringZN(imgPath);
             })).Start();
-            
-            
+
+
         }
 
         private void btnEnglish_Click(object sender, EventArgs e)
@@ -272,21 +232,17 @@ namespace CSharpOCR
                 Control.CheckForIllegalCrossThreadCalls = false;
                 txtResult.Text = TesseractTool.ConvertStringEN(imgPath);
             })).Start();
-           
+
         }
+        #endregion
+
 
         /// <summary>
         /// 反射调用方法
         /// </summary>
         public void Run(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtFilePath.Text.Trim()))
-            {
-                MessageBox.Show("请先选择文件或者填入图片链接");
-                return;
-            }
-            else
-            {
+           
                 imgPath = txtFilePath.Text.Trim();
                 beginTime = DateTime.Now;
                 txtResult.Text = "正在识别中,请稍等...";//清空结果
@@ -298,15 +254,13 @@ namespace CSharpOCR
                 if (btn.Name != "btnEnglish" && btn.Name != "btnChinese")
                 {
                     //使用反射调用方法
-                    Type t = typeof(BaiduTool);
-                    MethodInfo method = t.GetMethod(btn.Tag.ToString());
+                    Type type = typeof(BaiduTool);
+                    MethodInfo method = type.GetMethod(btn.Tag.ToString());
                     if (method != null)
-                    {
-                        txtResult.Text = method.Invoke(typeof(BaiduTool), new object[] { imgPath }).ToString();
+                    {                
+                        txtResult.Text = method.Invoke(type, new object[] { imgPath }).ToString();
                     }
                 }
-            }
-           
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CSharpOCR
 {
-   public class BDResultModel
+   public class BaiDuResult
     {
         /// <summary>
         /// 记录Id

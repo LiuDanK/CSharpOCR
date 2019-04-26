@@ -66,7 +66,7 @@
   <ItemGroup>
     <Compile Include="baidu\BaiduConfig.cs" />
     <Compile Include="baidu\BaiduTool.cs" />
-    <Compile Include="models\BDResultModel.cs" />
+    <Compile Include="models\BaiDuResult.cs" />
     <Compile Include="common\Common.cs" />
     <Compile Include="common\DataConvert.cs" />
     <Compile Include="common\HTTPHelper.cs" />
@@ -82,7 +82,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tencent\TResultModel.cs" />
+    <Compile Include="models\TencentResult.cs" />
     <Compile Include="tencent\TencentConfig.cs" />
     <Compile Include="TesseractTool.cs" />
     <EmbeddedResource Include="FrmMain.resx">
